@@ -1,11 +1,8 @@
 <script>
-// Importo Axios per fare richieste HTTP
 import axios from 'axios';
 
-// Importo il file store.js che contiene lo stato dell'applicazione
 import { store } from '/store.js';
 
-// Importo i componenti Vue che sono stati definiti altrove nel codice
 import AppList from './components/AppList.vue';
 import AppHeader from './components/AppHeader.vue';
 
@@ -20,35 +17,43 @@ export default {
       store,
     };
   },
-  created() {
-    this.movieSeries();
-  },
-  methods: { 
-    movieSeries() {
-      axios
-        .get(`https://api.themoviedb.org/3/movie/popular?api_key=ef84164b24031cff967786824de7194f&language=it`)
-        .then(res => {
-          this.store.movies = res.data.results;
-        });
-
-      axios
-        .get(`https://api.themoviedb.org/3/tv/popular?api_key=ef84164b24031cff967786824de7194f&language=it`)
-        .then(res => {
-          this.store.series = res.data.results;
-        });
+// Metodo che viene chiamato quando il componente viene creato
+created() {
+        this.movieSeries(); // Invoca la funzione per ottenere i film e le serie popolari
     },
-    selected() {
-      axios
-        .get(`https://api.themoviedb.org/3/search/movie?api_key=ef84164b24031cff967786824de7194f&language=it_IT&query=${this.store.selection}`)
-        .then(res => {
-          this.store.movies = res.data.results;
-        });
+    // Metodi del componente
+    methods: { 
+        // Funzione per ottenere i film e le serie popolari
+        movieSeries() {
+            // Richiesta per ottenere i film popolari
+            axios
+                .get(`https://api.themoviedb.org/3/movie/popular?api_key=ef84164b24031cff967786824de7194f&language=it`)
+                .then(res => {
+                    this.store.movies = res.data.results; // Aggiorna i film nello store con i risultati ottenuti dalla richiesta
+                });
 
-      axios
-        .get(`https://api.themoviedb.org/3/search/tv?api_key=ef84164b24031cff967786824de7194f&language=it_IT&query=${this.store.selection}`)
-        .then(res => {
-          this.store.series = res.data.results;
-        });
+            // Richiesta per ottenere le serie TV popolari
+            axios
+                .get(`https://api.themoviedb.org/3/tv/popular?api_key=ef84164b24031cff967786824de7194f&language=it`)
+                .then(res => {
+                    this.store.series = res.data.results; // Aggiorna le serie TV nello store con i risultati ottenuti dalla richiesta
+                });
+        },
+        // Funzione per cercare film e serie TV in base alla query inserita dall'utente
+        selected() {
+            // Richiesta per cercare i film in base alla query inserita dall'utente
+            axios
+                .get(`https://api.themoviedb.org/3/search/movie?api_key=ef84164b24031cff967786824de7194f&language=it_IT&query=${this.store.selection}`)
+                .then(res => {
+                    this.store.movies = res.data.results; // Aggiorna i film nello store con i risultati ottenuti dalla ricerca
+                });
+
+            // Richiesta per cercare le serie TV in base alla query inserita dall'utente
+            axios
+                .get(`https://api.themoviedb.org/3/search/tv?api_key=ef84164b24031cff967786824de7194f&language=it_IT&query=${this.store.selection}`)
+                .then(res => {
+                    this.store.series = res.data.results; // Aggiorna le serie TV nello store con i risultati ottenuti dalla ricerca
+                });
     },
   }
 }
@@ -62,5 +67,4 @@ export default {
   <AppList></AppList>
 </template>
 
-<!-- Stili CSS per questo componente -->
 <style></style>
