@@ -1,53 +1,71 @@
 <script>
+import { store } from '/store.js';
+import AppItem from './AppItem.vue';
 
-import AppItem from "./AppItem.vue";
 
-import {store} from '/store.js';
 
 export default {
-    name: 'AppList',
-
-    components:  {
-        
-        AppItem
-    },
 
     data() {
-        return  {
+        return {
             store,
         }
-    }
+    },
+
+    name: 'AppList',
+
+    components: {
+        AppItem,
+    },
+
+
 }
+
 </script>
 
+
 <template>
-   
 
-    <div class=" container-fluid p-5 border rounded d-flex flex-column justify-content center "> 
+    <div class=" background container-fluid  p-5 text-white mt-5 border-bottom border-black border-5">
+        <h3 class="text-white">Movies</h3>
 
+        
+        <div class="  cards d-flex flex-wrap  p-2 gap-1 justify-content-center" >
 
-        <ul class="container-fluid p-5  bg-white  rounded">
-            <div class="count text-uppercase container-fluid bg-dark text-white p-2 text-center">Found {{ store.movies.length }} movies</div>
+            <AppItem v-for="currentMovie in store.movies" :imageCover="currentMovie.poster_path"
+                :titleMovie="currentMovie.title" :originalTitle="currentMovie.original_name"
+                :language="currentMovie.original_language"
+                :vote="currentMovie.vote_average"
+                :overview="currentMovie.overview">
+            </AppItem>
+        </div>
+       
 
-            
-            <AppItem  class="d-flex"
-                v-for="movies in store.movies"
-                :cards="movies"
-            ></AppItem>
-           
-        </ul>
+    </div>
+
+    <div class="container-fluid background  p-5  text-white " >
+        <h3 >Series</h3>
+        <div class="cards d-flex flex-wrap p-2 gap-1 justify-content-center">
+            <AppItem v-for="currentSerie in store.series" :imageCover="currentSerie.poster_path"
+                :titleSerie="currentSerie.name" :originalTitle="currentSerie.original_name"
+                :language="currentSerie.original_language"
+                :vote="currentSerie.vote_average"
+                :overview="currentSerie.overview">
+            </AppItem>
+
+        </div>
+
     </div>
 </template>
 
+
 <style lang="scss">
+@import '/src/general.scss';
 
-
-
-
-
-.count{
-    font-weight: bolder;
+.background{
+    background-color:$bgColour ;
+    position: relative;
+    top: 100px;
 }
 
-
-</style>./CardsItem.vue/index.js
+</style>
